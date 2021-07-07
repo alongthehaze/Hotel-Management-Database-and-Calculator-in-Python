@@ -6,7 +6,7 @@ screen.title("HOTEL CALIFORNIA")
 screen.config(bg='white')
 screen.geometry('1024x751')
 
-bg = ImageTk.PhotoImage(file=r"c:\Users\ehtes\Downloads/hotel.jpg")
+bg = ImageTk.PhotoImage(file=r"c:\hotel.jpg")
 bg_label = Label(screen, image=bg)
 bg_label.place(x=0, y=0, relwidth=1, relheight=1)
 
@@ -52,7 +52,7 @@ def check_in():
 
     def display():
         con = pyodbc.connect((r'DRIVER={Microsoft Access Driver (*.mdb, *.accdb)};'
-                              r'DBQ=C:\Users\ehtes\OneDrive\Documents\Database3.accdb;'))
+                              r'DBQ=C:\Database3.accdb;'))
         cur = con.cursor()
         cur.execute('select * from hotel ORDER BY [booking id]')
 
@@ -64,7 +64,7 @@ def check_in():
 
     def checkin():
         con = pyodbc.connect((r'DRIVER={Microsoft Access Driver (*.mdb, *.accdb)};'
-                              r'DBQ=C:\Users\ehtes\OneDrive\Documents\Database3.accdb;'))
+                              r'DBQ=C:\Database3.accdb;'))
         cur = con.cursor()
         cur.execute(
             f"INSERT INTO hotel([first name],[last name],[guest ref],[email],[check in date],[check out date],[room no],[no of days]) VALUES('{firstname.get()}','{lastname.get()}',{guestref.get()},'{email.get()}','{datein.get()}','{dateout.get()}',{roomno.get()},{dayno.get()})")
@@ -75,7 +75,7 @@ def check_in():
 
     def update():
         con = pyodbc.connect((r'DRIVER={Microsoft Access Driver (*.mdb, *.accdb)};'
-                              r'DBQ=C:\Users\ehtes\OneDrive\Documents\Database3.accdb;'))
+                              r'DBQ=C:\Database3.accdb;'))
         cur = con.cursor()
         cur.execute(
             f"UPDATE [hotel] SET [room type] = '{roomtype.get()}', [check in date] = '{datein.get()}', [check out date] ='{dateout.get()}'"
@@ -87,7 +87,7 @@ def check_in():
 
     def checkout():
         con = pyodbc.connect((r'DRIVER={Microsoft Access Driver (*.mdb, *.accdb)};'
-                              r'DBQ=C:\Users\ehtes\OneDrive\Documents\Database3.accdb;'))
+                              r'DBQ=C:\Database3.accdb;'))
         cur = con.cursor()
         cur.execute(f"DELETE FROM hotel where "
                     f"[guest ref] = {guestref.get()}")
@@ -202,7 +202,7 @@ def check_in():
                        fg="gold", bg="black", bd=14, relief=RAISED)
     hotel_name.grid()
 
-    img = PhotoImage(file=r"C:\Users\ehtes\OneDrive\Documents\cali.png")
+    img = PhotoImage(file=r"C:\cali.png")
     img1 = img.subsample(2, 2)
     img2 = Label(left_f, image=img1).grid(row=0, column=1)
 
