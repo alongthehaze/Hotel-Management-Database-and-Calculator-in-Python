@@ -1,0 +1,183 @@
+from tkinter import*
+import math
+m = Tk()
+m.config(bg="light steel blue")
+m.title("Scientific Calculator")
+e = Entry(m, width=50, bd=5, relief=RIDGE, fg="black", bg="light green")
+e.grid(row=0, column=0, columnspan=5, padx=10, pady=20)
+l = Label(m, width=50,height=2, bd=5, relief=RIDGE, fg="black", bg="light green")
+l.grid(row=1, column=0, columnspan=5, padx=10, pady=20)
+
+def click(ans):
+    var = e.get()
+    e.delete(0, END)
+    e.insert(0, var+ans)
+    l.config(text=var + ans)
+    return
+
+def deg():
+    n = e.get()
+    r = float(math.degrees(float(n)))
+    l.config(text=r)
+def rad():
+    n = e.get()
+    r = float(math.radians(float(n)))
+    l.config(text=r)
+def rec():
+    n = e.get()
+    r = float(1/(float(n)))
+    l.config(text=r)
+def fac():
+    n = e.get()
+    r = float(math.factorial(float(n)))
+    l.config(text=r)
+def log():
+    n = e.get()
+    r = float(math.log10(float(n)))
+    l.config(text=r)
+def ln():
+    n = e.get()
+    r = float(math.log(float(n)))
+    l.config(text=r)
+def sin():
+    n = int(e.get())
+    r = float(math.sin(math.radians(float(n))))
+    l.config(text=r)
+def cos():
+    n = e.get()
+    r = float(math.cos(math.radians(float(n))))
+    l.config(text=r)
+def tan():
+    n = e.get()
+    r = float(math.tan(math.radians(float(n))))
+    l.config(text=r)
+def sqrt():
+    n = e.get()
+    r = float(math.sqrt(float(n)))
+    l.config(text=r)
+
+def clear():
+    e.delete(0, END)
+    l.config(text="")
+    return
+
+def delete():
+    now = e.get()
+    length = len(now)-1
+    e.delete(length, END)
+
+def answer():
+    answ = e.get()
+    answ = eval(answ)
+    e.delete(0, END)
+    e.insert(0, answ)
+
+log = Button(m, text="log", relief=RAISED, padx=28, pady=10, fg="white", bg="black", command=log)
+log.grid(row=2, column=0)
+
+ln = Button(m, text="ln", relief=RAISED, padx=25, pady=10, fg="white", bg="black", command=ln)
+ln.grid(row=2, column=1)
+
+br1 = Button(m, text="(", relief=RAISED, padx=29, pady=10, fg="white", bg="black", command=lambda: click("("))
+br1.grid(row=2, column=2)
+br2 = Button(m, text=")", relief=RAISED, padx=30, pady=10, fg="white", bg="black", command=lambda: click(")"))
+br2.grid(row=2, column=3)
+
+ex = Button(m, text="e", relief=RAISED, padx=29, pady=10, fg="white", bg="black", command=lambda: click("2.71828128"))
+ex.grid(row=2, column=4)
+
+exp = Button(m, text="^", relief=RAISED, padx=32, pady=10, fg="white", bg="black", command=lambda: click("**"))
+exp.grid(row=3, column=0)
+
+deg = Button(m, text="deg", relief=RAISED, padx=23, pady=10, fg="white", bg="black", command=deg)
+
+deg.grid(row=3, column=1)
+
+sin = Button(m, text="sin", relief=RAISED, padx=24, pady=10, fg="white", bg="black", command=sin)
+sin.grid(row=3, column=2)
+
+cos = Button(m, text="cos", relief=RAISED, padx=23, pady=10, fg="white", bg="black", command=cos)
+cos.grid(row=3, column=3)
+
+tan = Button(m, text="tan", relief=RAISED, padx=24, pady=10, fg="white", bg="black", command=tan)
+
+tan.grid(row=3, column=4)
+
+sqrt = Button(m, text="sqrt", relief=RAISED, padx=24, pady=10, fg="white", bg="black", command=sqrt)
+sqrt.grid(row=4, column=0)
+
+cancel = Button(m, text="AC", relief=RAISED, padx=25, pady=10, fg="black", bg="red3", command=clear)
+cancel.grid(row=4, column=1)
+
+bck = Button(m, text="DEL", relief=RAISED, padx=22, pady=10, fg="black", bg="steel blue", command=delete)
+bck.grid(row=4, column=2)
+
+mod = Button(m, text="mod", relief=RAISED, padx=20, pady=10, fg="white", bg="black", command=lambda: click("%"))
+mod.grid(row=4, column=3)
+
+div = Button(m, text="/", relief=RAISED, padx=29, pady=10, fg="white", bg="black", command=lambda: click("/"))
+div.grid(row=4, column=4)
+
+fac = Button(m, text="x!", relief=RAISED, padx=29, pady=10, fg="white", bg="black", command=fac)
+
+fac.grid(row=5, column=0)
+
+seven = Button(m, text="7", relief=RAISED, padx=29, pady=10, fg="white", bg="black", command=lambda: click("7"))
+seven.grid(row=5, column=1)
+
+eight = Button(m, text="8", relief=RAISED, padx=29, pady=10, fg="white", bg="black", command=lambda: click("8"))
+eight.grid(row=5, column=2)
+
+nine = Button(m, text="9", relief=RAISED, padx=29, pady=10, fg="white", bg="black", command=lambda: click("9"))
+nine.grid(row=5, column=3)
+
+mul = Button(m, text="*", relief=RAISED, padx=29, pady=10, fg="white", bg="black", command=lambda: click("*"))
+mul.grid(row=5, column=4)
+
+rec = Button(m, text="1/x", relief=RAISED, padx=25, pady=10, fg="white", bg="black", command=rec)
+rec.grid(row=6, column=0)
+
+four = Button(m, text="4", relief=RAISED, padx=29, pady=10, fg="white", bg="black", command=lambda: click("4"))
+four.grid(row=6, column=1)
+
+five = Button(m, text="5", relief=RAISED, padx=29, pady=10, fg="white", bg="black", command=lambda: click("5"))
+five.grid(row=6, column=2)
+
+six = Button(m, text="6", relief=RAISED, padx=29, pady=10, fg="white", bg="black", command=lambda: click("6"))
+six.grid(row=6, column=3)
+
+sub = Button(m, text="-", relief=RAISED, padx=29, pady=10, fg="white", bg="black", command=lambda: click("-"))
+sub.grid(row=6, column=4)
+
+rad = Button(m, text="rad", relief=RAISED, padx=25, pady=10, fg="white", bg="black", command=rad)
+rad.grid(row=7, column=0)
+
+one = Button(m, text="1", relief=RAISED, padx=29, pady=10, fg="white", bg="black", command=lambda: click("1"))
+one.grid(row=7, column=1)
+
+two = Button(m, text="2", relief=RAISED, padx=29, pady=10, fg="white", bg="black", command=lambda: click("2"))
+two.grid(row=7, column=2)
+
+three = Button(m, text="3", relief=RAISED, padx=29, pady=10, fg="white", bg="black", command=lambda: click("3"))
+three.grid(row=7, column=3)
+
+add = Button(m, text="+", relief=RAISED, padx=29, pady=10, fg="white", bg="black", command=lambda: click("+"))
+add.grid(row=7, column=4)
+
+pi = Button(m, text="pi", relief=RAISED, padx=30, pady=10, fg="white", bg="black", command=lambda: click("3.1415926592654"))
+
+pi.grid(row=8, column=0)
+
+dec = Button(m, text=".", relief=RAISED, padx=29, pady=10, fg="white", bg="black", command=lambda: click("."))
+dec.grid(row=8, column=1)
+
+zero = Button(m, text="0", relief=RAISED, padx=29, pady=10, fg="white", bg="black", command=lambda: click("0"))
+zero.grid(row=8, column=2)
+
+eq = Button(m, text="=", relief=RAISED, padx=29, pady=10, fg="black", bg="gold3", command=answer)
+eq.grid(row=8, column=3)
+
+OFF = Button(m, text="EXIT", relief=RAISED, padx=22, pady=10, fg="black", bg="dark turquoise", command=lambda: m.destroy())
+OFF.grid(row=8, column=4)
+m.mainloop()
+
