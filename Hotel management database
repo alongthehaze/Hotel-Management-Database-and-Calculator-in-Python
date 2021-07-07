@@ -1,0 +1,340 @@
+from PIL import ImageTk
+
+screen = Tk()
+screen.title("HOTEL CALIFORNIA")
+screen.config(bg='white')
+screen.geometry('1024x751')
+
+bg = ImageTk.PhotoImage(file=r"c:\Users\ehtes\Downloads/hotel.jpg")
+bg_label = Label(screen, image=bg)
+bg_label.place(x=0, y=0, relwidth=1, relheight=1)
+
+title_label = Label(screen, text="HOTEL CALIFORNIA ", bd=5, relief=RIDGE,height=2, bg="gold3", fg="black", font=("Algerian", 30,"bold"))
+title_label.pack()
+
+def check_in():
+    from tkinter import ttk
+    from tkinter import messagebox
+    import time
+    import random
+    import datetime
+    import pyodbc
+    m = Tk()
+    m.title("Hotel Management System")
+    m.geometry("1350x700+0+0")
+    m.config(bg="teal")
+
+    guestref = StringVar()
+    firstname = StringVar()
+    lastname = StringVar()
+    email = StringVar()
+    datein = StringVar()
+    dateout = StringVar()
+    roomno = StringVar()
+    roomtype = StringVar()
+    dayno = StringVar()
+    tax = StringVar()
+    subtotal = StringVar()
+    total = StringVar()
+
+
+    datein.set(time.strftime("%d/%m/%Y"))
+    dateout.set(time.strftime("%d/%m/%Y"))
+
+    x = random.randint(10000, 50000)
+    ranref = str(x)
+    guestref.set(ranref)
+
+    y = random.randint(1, 500)
+    ranroom = str(y)
+    roomno.set(ranroom)
+
+    def display():
+        con = pyodbc.connect((r'DRIVER={Microsoft Access Driver (*.mdb, *.accdb)};'
+                              r'DBQ=C:\Users\ehtes\OneDrive\Documents\Database3.accdb;'))
+        cur = con.cursor()
+        cur.execute('select * from hotel ORDER BY [booking id]')
+
+        rows = cur.fetchall()
+        if len(rows) != 0:
+            for i in rows:
+                tree.insert('', END, values=i)
+        con.close()
+
+    def checkin():
+        con = pyodbc.connect((r'DRIVER={Microsoft Access Driver (*.mdb, *.accdb)};'
+                              r'DBQ=C:\Users\ehtes\OneDrive\Documents\Database3.accdb;'))
+        cur = con.cursor()
+        cur.execute(
+            f"INSERT INTO hotel([first name],[last name],[guest ref],[email],[check in date],[check out date],[room no],[no of days]) VALUES('{firstname.get()}','{lastname.get()}',{guestref.get()},'{email.get()}','{datein.get()}','{dateout.get()}',{roomno.get()},{dayno.get()})")
+        con.commit()
+        display()
+        messagebox.showinfo("Check In", "You have booked successfully!")
+        con.close()
+
+    def update():
+        con = pyodbc.connect((r'DRIVER={Microsoft Access Driver (*.mdb, *.accdb)};'
+                              r'DBQ=C:\Users\ehtes\OneDrive\Documents\Database3.accdb;'))
+        cur = con.cursor()
+        cur.execute(
+            f"UPDATE [hotel] SET [room type] = '{roomtype.get()}', [check in date] = '{datein.get()}', [check out date] ='{dateout.get()}'"
+            f"WHERE [guest ref]={guestref.get()}")
+        con.commit()
+        display()
+        messagebox.showinfo("Make Changes", "You have updated your information successfully!")
+        con.close()
+
+    def checkout():
+        con = pyodbc.connect((r'DRIVER={Microsoft Access Driver (*.mdb, *.accdb)};'
+                              r'DBQ=C:\Users\ehtes\OneDrive\Documents\Database3.accdb;'))
+        cur = con.cursor()
+        cur.execute(f"DELETE FROM hotel where "
+                    f"[guest ref] = {guestref.get()}")
+        con.commit()
+        display()
+        messagebox.showinfo("Check Out", "You have checked out successfully!")
+        con.close()
+
+    def clear():
+        for i in tree.get_children():
+            tree.delete(i)
+
+    def add():
+        indate = datein.get()
+        outdate = dateout.get()
+        indate = datetime.datetime.strptime(indate, "%d/%m/%Y")
+        outdate = datetime.datetime.strptime(outdate, "%d/%m/%Y")
+        dayno.set(abs((outdate - indate).days))
+
+        if roomtype.get() == "Single":
+            x1 = float(38)
+            x2 = float(dayno.get())
+            x3 = float(x1 * x2)
+            TAX = "$" + str(x3 * 0.18)
+            ST = "$" + str(x3)
+            TOTAL = "$" + str(x3 + (x3 * 0.18))
+            tax.set(TAX)
+            subtotal.set(ST)
+            total.set(TOTAL)
+
+        elif roomtype.get() == "Single with breakfast":
+            x1 = float(56)
+            x2 = float(dayno.get())
+            x3 = float(x1 * x2)
+            TAX = "$" + str(x3 * 0.18)
+            ST = "$" + str(x3)
+            TOTAL = "$" + str(x3 + (x3 * 0.18))
+            tax.set(TAX)
+            subtotal.set(ST)
+            total.set(TOTAL)
+
+        elif roomtype.get() == "Deluxe":
+            x1 = float(85)
+            x2 = float(dayno.get())
+            x3 = float(x1 * x2)
+            TAX = "$" + str(x3 * 0.18)
+            ST = "$" + str(x3)
+            TOTAL = "$" + str(x3 + (x3 * 0.18))
+            tax.set(TAX)
+            subtotal.set(ST)
+            total.set(TOTAL)
+
+        elif roomtype.get() == "Deluxe with breakfast":
+            x1 = float(103)
+            x2 = float(dayno.get())
+            x3 = float(x1 * x2)
+            TAX = "$" + str(x3 * 0.18)
+            ST = "$" + str(x3)
+            TOTAL = "$" + str(x3 + (x3 * 0.18))
+            tax.set(TAX)
+            subtotal.set(ST)
+            total.set(TOTAL)
+
+        elif roomtype.get() == "Royale":
+            x1 = float(150)
+            x2 = float(dayno.get())
+            x3 = float(x1 * x2)
+            TAX = "$" + str(x3 * 0.18)
+            ST = "$" + str(x3)
+            TOTAL = "$" + str(x3 + (x3 * 0.18))
+            tax.set(TAX)
+            subtotal.set(ST)
+            total.set(TOTAL)
+
+        elif roomtype.get() == "Royale with breakfast":
+            x1 = float(168)
+            x2 = float(dayno.get())
+            x3 = float(x1 * x2)
+            TAX = "$" + str(x3 * 0.18)
+            ST = "$" + str(x3)
+            TOTAL = "$" + str(x3 + (x3 * 0.18))
+            tax.set(TAX)
+            subtotal.set(ST)
+            total.set(TOTAL)
+
+    def exit1():
+        exit1 = messagebox.askyesno("Hotel California", "Do you want to leave?")
+        if exit1 > 0:
+            m.destroy()
+
+    main_f = Frame(m)
+    main_f.grid()
+
+    top_f = Frame(main_f, bd=10, width=1350, height=550, padx=2, relief=RIDGE, bg="cadet blue")
+    top_f.pack(side=TOP)
+
+    left_f = Frame(top_f, bd=7, width=400, height=600, relief=RIDGE, bg="teal")
+    left_f.pack(side=LEFT)
+
+    right_f = Frame(top_f, bd=5, width=820, height=600, relief=RIDGE)
+    right_f.pack(side=RIGHT)
+
+    right_f2 = Frame(right_f, bd=5, width=800, height=350, padx=3, relief=RIDGE)
+    right_f2.grid(row=1, column=0)
+    right_f3 = Frame(right_f, bd=5, width=800, height=300, padx=4, relief=RIDGE)
+    right_f3.grid(row=3, column=0)
+
+    bottom_f = Frame(main_f, bd=10, width=1360, height=120, padx=2, relief=RIDGE, bg="teal")
+    bottom_f.pack(side=BOTTOM, fill=BOTH)
+
+    hotel_name = Label(left_f, text="The Hotel California", font=("algerian", 19, "bold"),
+                       fg="gold", bg="black", bd=14, relief=RAISED)
+    hotel_name.grid()
+
+    img = PhotoImage(file=r"C:\Users\ehtes\OneDrive\Documents\cali.png")
+    img1 = img.subsample(2, 2)
+    img2 = Label(left_f, image=img1).grid(row=0, column=1)
+
+    guest_ref = Label(left_f, font=("arial", 12, "bold"), text="Guest Reference Number", padx=1, bg="powder blue")
+    guest_ref.grid(row=1, column=0)
+    guest_ref_e = Entry(left_f, font=("arial", 12, "bold"), width=18, textvariable=guestref).grid(row=1, column=1,
+                                                                                                  padx=3, pady=25)
+
+    first_name = Label(left_f, font=("arial", 12, "bold"), text="First Name", padx=1, bg="powder blue")
+    first_name.grid(row=2, column=0)
+    first_name_e = Entry(left_f, font=("arial", 12, "bold"), textvariable=firstname, width=18).grid(row=2, column=1,
+                                                                                                    padx=3, pady=25)
+
+    last_name = Label(left_f, font=("arial", 12, "bold"), text="Last Name", padx=1, bg="powder blue")
+    last_name.grid(row=3, column=0)
+    last_name_e = Entry(left_f, font=("arial", 12, "bold"), textvariable=lastname, width=18).grid(row=3, column=1,
+                                                                                                  padx=3, pady=25)
+
+    address = Label(left_f, font=("arial", 12, "bold"), text="Email Address", padx=1, bg="powder blue")
+    address.grid(row=4, column=0)
+    address_e = Entry(left_f, font=("arial", 12, "bold"), textvariable=email, width=18).grid(row=4, column=1, padx=3,
+                                                                                             pady=25)
+
+    room_type = Label(left_f, font=("arial", 12, "bold"), text="Room Type", padx=1, bg="powder blue")
+    room_type.grid(row=6, column=0)
+    types = ["Single", "Single with breakfast", "Deluxe", "Deluxe with breakfast", "Royale", "Royale with breakfast"]
+    room_type_c = ttk.Combobox(left_f, textvariable=roomtype, values=types, state='readonly',
+                               font=("arial", 12, "bold"), width=19)
+    room_type_c.set("Pick a Room Type")
+    room_type_c.grid(row=6, column=1, padx=3, pady=25)
+
+    check_in = Label(left_f, font=("arial", 12, "bold"), text="Check In date", padx=1, bg="powder blue")
+    check_in.grid(row=7, column=0)
+    check_in_e = Entry(left_f, font=("arial", 12, "bold"), width=18, textvariable=datein).grid(row=7, column=1, padx=3,
+                                                                                               pady=20)
+
+    check_out = Label(left_f, font=("arial", 12, "bold"), text="Check Out date", padx=1, bg="powder blue")
+    check_out.grid(row=8, column=0)
+    check_out_e = Entry(left_f, font=("arial", 12, "bold"), width=18, textvariable=dateout).grid(row=8, column=1,
+                                                                                                 padx=3, pady=20)
+
+    no_day = Label(right_f3, bd=3, relief=RIDGE, font=("arial", 14, "bold"), text="Total number of Days",
+                   padx=1, pady=3, bg="light steel blue")
+    no_day.grid(row=1, column=0)
+    no_day_e = Entry(right_f3, font=("arial", 12, "bold"), textvariable=dayno, width=25).grid(row=1, column=1, padx=2,
+                                                                                              pady=10)
+
+    room_no = Label(right_f3, bd=3, relief=RIDGE, font=("arial", 14, "bold"), text="Room Number",
+                    padx=1, pady=3, bg="light steel blue")
+    room_no.grid(row=1, column=3)
+    room_no_e = Entry(right_f3, font=("arial", 12, "bold"), textvariable=roomno, width=10).grid(row=1, column=4, padx=2, pady=10)
+
+    Breakfast = Label(right_f3, bd=3, relief=RIDGE, font=("arial", 14, "bold"), text="Breakfast",
+                      padx=1, pady=3, bg="dark turquoise")
+    Breakfast.grid(row=2, column=3)
+    Breakfast_e = Entry(right_f3, font=("arial", 12, "bold"), width=10).grid(row=2, column=4, padx=2, pady=10)
+    types = ["Eggs with olives and mushrooms", "Fresh vegetables with lentil", "Nihari with Roti",
+             "Sausages with Omelette", "Mashed potatoes with meatballs"]
+    Breakfast_c = ttk.Combobox(right_f3, values=types, state='readonly', font=("arial", 12, "bold"), width=24)
+    Breakfast_c.set("Breakfast Menu")
+    Breakfast_c.grid(row=2, column=4)
+
+
+    tax1 = Label(right_f3, bd=3, relief=RIDGE, font=("arial", 14, "bold"), text="Paid Tax", padx=2, pady=3, bg="teal")
+    tax1.grid(row=2, column=0)
+    tax1_e = Entry(right_f3, font=("arial", 12, "bold"), textvariable=tax, width=25).grid(row=2, column=1, padx=3,
+                                                                                          pady=10)
+
+    sub_total = Label(right_f3, bd=3, relief=RIDGE, font=("arial", 14, "bold"), text="Subtotal", padx=2, pady=3,
+                      bg="teal")
+    sub_total.grid(row=3, column=0)
+    sub_total_e = Entry(right_f3, font=("arial", 14, "bold"), textvariable=subtotal, width=25).grid(row=3, column=1,
+                                                                                                    padx=3, pady=10)
+
+    total1 = Label(right_f3, bd=3, width=5, relief=RIDGE, font=("arial", 14, "bold"), text="Total", padx=2, pady=3,
+                   bg="teal")
+    total1.grid(row=4, column=0)
+    total1_e = Entry(right_f3, font=("arial", 14, "bold"), textvariable=total, width=25).grid(row=4, column=1, padx=3,
+                                                                                              pady=10)
+
+    update_but = Button(bottom_f, bd=4, width=12, height=1, text="Update", command=update,
+                        font=("arial", 18, "bold")).grid(row=0, column=0, padx=10, pady=15)
+
+    cost_but = Button(bottom_f, bd=4, width=12, height=1, text="Add Total", command=add,
+                      font=("arial", 18, "bold")).grid(row=0, column=1, padx=10, pady=15)
+
+    checkin_but = Button(bottom_f, bd=4, width=10, height=1, text="Check In", command=checkin, bg="steel blue",
+                         font=("arial", 18, "bold")).grid(row=0, column=3, padx=10, pady=15)
+
+    checkout_but = Button(bottom_f, bd=4, width=10, height=1, text="Check Out", command=checkout,
+                          font=("arial", 18, "bold")).grid(row=0, column=4, padx=10, pady=15)
+
+    clear_but = Button(bottom_f, bd=4, width=12, height=1, text="Clear", command=clear,
+                       font=("arial", 18, "bold")).grid(row=0, column=5, padx=10, pady=15)
+
+    display_but = Button(bottom_f, bd=4, width=8, height=1, text="Display", command=display,
+                         font=("arial", 18, "bold")).grid(row=0, column=6, padx=10, pady=15)
+
+    exit_but = Button(bottom_f, bd=4, width=8, height=1, text="Exit", command=exit1, bg="indian red",
+                      font=("arial", 18, "bold")).grid(row=0, column=7, padx=10, pady=15)
+
+    tree = ttk.Treeview(right_f2, height=15, columns=('booking id', 'first name', 'last name', 'guest ref', 'email',
+                                                      'check in date', 'check out date', 'room no', 'room type'))
+    tree['show'] = 'headings'
+    tree.heading('booking id', text="BookingID")
+    tree.column('booking id', width=63)
+
+    tree.heading('first name', text="First Name")
+    tree.column('first name', width=90)
+
+    tree.heading('last name', text="Last Name")
+    tree.column('last name', width=90)
+
+    tree.heading('guest ref', text="Guest Ref#")
+    tree.column('guest ref', width=65)
+
+    tree.heading('email', text="Email")
+    tree.column('email', width=125)
+
+    tree.heading('check in date', text="Check In Date")
+    tree.column('check in date', width=100)
+
+    tree.heading('check out date', text="Check Out Date")
+    tree.column('check out date', width=100)
+    tree.heading('room no', text="Room No.")
+    tree.column('room no', width=65)
+    tree.heading('room type', text="No. of Days")
+    tree.column('room type', width=87)
+    tree.place(x=0, y=15)
+check_in_button = Button(screen, text="Check In", bd=5, relief=RIDGE, fg="black", bg="dark turquoise", font=('Brush Script MT', 20, 'bold', 'italic'), width=30,
+                    command=check_in)
+check_in_button.pack(pady=60)
+exit_button = Button(screen, text="Exit", bd=5, relief=RIDGE, fg="black", bg="red3", width=30, font=('Brush Script MT', 20, 'bold', 'italic'), command=screen.quit)
+
+exit_button.pack(pady=40)
+screen.mainloop()
